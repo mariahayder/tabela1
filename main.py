@@ -29,6 +29,7 @@ async def shutdown():
 @app.get("/tracks/{page}/{per_page}")
 async def root(page: int = 0, per_page: int = 10):
     cursor = app.db_connection.cursor()
-    data = app.db_connection.execute("SELECT * FROM tracks ORDER BY TrackId LIMIT OFFSET %d" % (per_page, per_page*page)).fetchall()
+    offset=page*per_page
+    data = app.db_connection.execute("SELECT * FROM tracks ORDER BY TrackId LIMIT %d OFFSET %d" % (per_page, offset)).fetchall()
     return data
 
