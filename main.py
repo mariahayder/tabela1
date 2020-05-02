@@ -1,5 +1,6 @@
 import sqlite3
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
 {
         "TrackId": int,
@@ -51,4 +52,20 @@ async def root(page: int, per_page: int = 10):
     offset=page*per_page
     data = app.db_connection.execute("SELECT * FROM tracks ORDER BY TrackId LIMIT %d OFFSET %d" % (per_page, offset)).fetchall()
     return data
+
+
+@app.get("/tracks/composers/{composer_name}")
+async def root(composer_name: str):
+    cursor = app.db_connection.cursor()
+    data = app.db_connection.execute("SELECT name FROM tracks WHERE composer={composer_name} ORDER BY name").fetchall()
+    return data
+
+
+@app.get("/tracks/composers")
+async def root():
+    raise HTTPException(status_code=404, detail="no composer given")
+
+
+
+
 
