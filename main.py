@@ -56,12 +56,14 @@ async def root(page: int, per_page: int = 10):
 
 @app.get("/tracks/composers/{composer_name}")
 async def root(composer_name: str):
+    if composer_name==null:
+        raise HTTPException(status_code=404, detail="no composer given")
     cursor = app.db_connection.cursor()
     data = app.db_connection.execute("SELECT name FROM tracks WHERE composer={composer_name} ORDER BY name").fetchall()
     return data
 
 
-@app.get("/tracks/composers")
+@app.get("/tracks/composers/")
 async def root():
     raise HTTPException(status_code=404, detail="no composer given")
 
