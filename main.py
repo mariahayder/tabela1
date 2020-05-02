@@ -26,7 +26,7 @@ async def shutdown():
     app.db_connection.close()
 
 
-@app.get("/tracks/{page}{per_page}")
+@app.get("/tracks/{page}/{per_page}")
 async def root(page: int = 0, per_page: int = 10):
     cursor = app.db_connection.cursor()
     data = app.db_connection.execute("SELECT * FROM tracks ORDER BY TrackId LIMIT per_page OFFSET page*per_page").fetchall()
