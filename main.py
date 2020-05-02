@@ -34,3 +34,21 @@ async def root(page: int = 0, per_page: int = 10):
     data = app.db_connection.execute("SELECT * FROM tracks ORDER BY TrackId LIMIT %d OFFSET %d" % (per_page, offset)).fetchall()
     return data
 
+
+@app.get("/tracks")
+async def root(page: int = 0, per_page: int = 10):
+    cursor = app.db_connection.cursor()
+    print("page: %d per_page: %d" % (page, per_page))
+    offset=page*per_page
+    data = app.db_connection.execute("SELECT * FROM tracks ORDER BY TrackId LIMIT %d OFFSET %d" % (per_page, offset)).fetchall()
+    return data
+
+
+@app.get("/tracks/{page}")
+async def root(page: int, per_page: int = 10):
+    cursor = app.db_connection.cursor()
+    print("page: %d per_page: %d" % (page, per_page))
+    offset=page*per_page
+    data = app.db_connection.execute("SELECT * FROM tracks ORDER BY TrackId LIMIT %d OFFSET %d" % (per_page, offset)).fetchall()
+    return data
+
